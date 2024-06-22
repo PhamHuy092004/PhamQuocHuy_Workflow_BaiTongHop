@@ -1,0 +1,50 @@
+﻿<div class="container" ng-app="myApp">
+    <user-form ng-controller="myCtrl"></user-form>
+
+</div>
+<h2>Danh sách người dùng</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Số điện thoại</th>
+            <th>Ngày sinh</th>
+            <th>Giới tính</th>
+            <th>Tỉnh thành</th>
+            <th>Tên tài khoản</th>
+            <th>Mật khẩu</th>
+        </tr>
+    </thead>
+    <tbody id="userTableBody">
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("GetUsers", "Home")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $('#userTableBody').empty();
+                    $.each(data, function (index, user) {
+                        var row = '<tr>' +
+                            '<td>' + user.fullName + '</td>' +
+                            '<td>' + user.phoneNumber + '</td>' +
+                            '<td>' + user.birthDate + '</td>' +
+                            '<td>' + user.gender + '</td>' +
+                            '<td>' + user.province + '</td>' +
+                            '<td>' + user.username + '</td>' +
+                            '<td>' + user.password + '</td>' +
+                            '</tr>';
+                        $('#userTableBody').append(row);
+                    });
+                },
+                error: function (error) {
+                    console.log('Error fetching users:', error);
+                }
+            });
+        });
+    </script>
+}
