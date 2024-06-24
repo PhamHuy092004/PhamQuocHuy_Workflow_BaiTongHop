@@ -89,6 +89,20 @@ angular.module('myApp', [])
             }
         };
     })
+.directive('noVietnameseCharacters', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, ngModelCtrl) {
+            ngModelCtrl.$validators.noVietnameseCharacters = function (modelValue, viewValue) {
+                if (viewValue) {
+                    return !/[^\u0000-\u007F]/.test(viewValue);
+                }
+                return true;
+            };
+        }
+    };
+})
+
     .directive('validBirthdate', function () {
         return {
             require: 'ngModel',
@@ -184,7 +198,7 @@ angular.module('myApp', [])
                     </div>
                     <div class="col-lg-12 mb-3" ng-class="{ 'has-error': usernameTouched && (profileForm.username.$invalid || profileForm.username.$error.noSpaces || profileForm.username.$error.minlength) }">
                         <div class="form-floating">
-                            <input type="text" class="form-control" name="username" ng-model="username" required id="focus_click" placeholder="Nhập tên tài khoản" ng-change="onInputChange('username')" no-spaces minlength="8">
+                            <input type="text" class="form-control" name="username" no-vietnamese-characters ng-model="username" required id="focus_click" placeholder="Nhập tên tài khoản" ng-change="onInputChange('username')" no-spaces minlength="8">
                             <label>Tên tài khoản</label>
                             <div class="text-danger" ng-show="usernameTouched && profileForm.username.$error.required">
                                 Tên tài khoản là bắt buộc.
@@ -195,6 +209,9 @@ angular.module('myApp', [])
                             <div class="text-danger" ng-show="usernameTouched && profileForm.username.$error.minlength">
                                 Tên tài khoản phải có ít nhất 8 ký tự.
                             </div>
+                              <div class="text-danger" ng-show="usernameTouched && profileForm.username.$error.noVietnameseCharacters">
+            Tên tài khoản không được chứa ký tự tiếng Việt.
+        </div>
                         </div>
                     </div>
                    <div class="row">
