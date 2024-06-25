@@ -118,7 +118,7 @@ angular.module('myApp', [])
                         age--;
                     }
 
-                    return age >= 16 && age <= 150;
+                    return age >= 15;
                 };
             }
         };
@@ -163,7 +163,7 @@ angular.module('myApp', [])
                             <label>Ngày sinh</label>
                             <div class="text-danger" ng-show="birthdateTouched && (profileForm.birthdate.$error.required || profileForm.birthdate.$error.validBirthdate)">
                                 <span ng-show="profileForm.birthdate.$error.required">Ngày sinh là bắt buộc.</span>
-                                <span ng-show="profileForm.birthdate.$error.validBirthdate">Tuổi phải từ 16 đến 150.</span>
+                                <span ng-show="profileForm.birthdate.$error.validBirthdate">Tuổi phải từ 15.</span>
                             </div>
                         </div>
                     </div>
@@ -217,7 +217,7 @@ angular.module('myApp', [])
                    <div class="row">
     <div class="col-lg-6 mb-3" ng-class="{ 'has-error': passwordTouched && (profileForm.password.$invalid || profileForm.password.$error.noSpaces || !(password | passwordValidator)) }">
         <div class="form-floating">
-            <input type="password" class="form-control" name="password" ng-model="password" required id="focus_click" placeholder="Nhập mật khẩu" ng-change="onInputChange('password')" password-validator>
+            <input type="text" class="form-control" name="password" ng-model="password" required id="focus_click" placeholder="Nhập mật khẩu" ng-change="onInputChange('password')" password-validator>
             <label for="focus_click">Mật khẩu</label>
             <div class="text-danger" ng-show="passwordTouched && profileForm.password.$error.required">
                 Mật khẩu là bắt buộc.
