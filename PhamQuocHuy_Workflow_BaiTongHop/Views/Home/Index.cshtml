@@ -1,23 +1,36 @@
 ﻿<div class="container" ng-app="myApp">
-    <user-form ng-controller="myCtrl"></user-form>
+    <div ng-controller="myCtrl">
+            <user-form></user-form>
+        <h2>Danh sách người dùng</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Họ và tên</th>
+                    <th>Số điện thoại</th>
+                    <th>Ngày sinh</th>
+                    <th>Giới tính</th>
+                    <th>Tỉnh thành</th>
+                    <th>Tên tài khoản</th>
+                    <th>Mật khẩu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in users">
+                    <td>{{user.fullName}}</td>
+                    <td>{{user.phoneNumber }}</td>
+                    <td>{{ formatDate(user.birthDate) }}</td>
+                    <td>{{ user.gender }}</td>
+                    <td>{{ user.province }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.password }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 
 </div>
-<h2>Danh sách người dùng</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Họ và tên</th>
-            <th>Số điện thoại</th>
-            <th>Ngày sinh</th>
-            <th>Giới tính</th>
-            <th>Tỉnh thành</th>
-            <th>Tên tài khoản</th>
-            <th>Mật khẩu</th>
-        </tr>
-    </thead>
-    <tbody id="userTableBody">
-    </tbody>
-</table>
+
 <style>
     .has-error input,
 .has-error select {
@@ -29,36 +42,4 @@
     box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25) !important;
 }
 </style>
-@section scripts {
-    <script>
-        $(document).ready(function () {
-            $.ajax({
-                url: '@Url.Action("GetUsers", "Home")', //Đường dẫn gọi danh sách
-                type: 'GET', 
-                dataType: 'json',
-                success: function (data) {
-                    $('#userTableBody').empty();
-                    $.each(data, function (index, user) {
-                        var birthDate = new Date(user.birthDate);
-                        var formattedDate = ("0" + birthDate.getDate()).slice(-2) + "/"
-                            + ("0" + (birthDate.getMonth() + 1)).slice(-2) + "/"
-                            + birthDate.getFullYear();
-                        var row = '<tr>' +
-                            '<td>' + user.fullName + '</td>' +
-                            '<td>' + user.phoneNumber + '</td>' +
-                            '<td>' + formattedDate + '</td>' +
-                            '<td>' + user.gender + '</td>' +
-                            '<td>' + user.province + '</td>' +
-                            '<td>' + user.username + '</td>' +
-                            '<td>' + user.password + '</td>' +
-                            '</tr>';
-                        $('#userTableBody').append(row);
-                    });
-                },
-                error: function (error) {
-                    console.log('Error fetching users:', error);
-                }
-            });
-        });
-    </script>
-}
+

@@ -1,18 +1,21 @@
-﻿$(document).ready(function () {
-    $.ajax({
-        url: 'List.html',
-        type: 'GET',
-        dataType: 'html', 
-        success: function (newContent) {
-            $('#content-container').html(newContent);
-        },
-        error: function (xhr) {
-            console.error('Lỗi khi lấy dữ liệu HTML:', xhr);
-        }
-    });
-});
+﻿
 angular.module('myApp', [])
-    .controller('myCtrl', function ($scope) {
+    .controller('myCtrl', function ($scope, $http) {
+        $scope.users = [];
+
+        $http.get('/Home/GetUsers').then(function (response) {
+            $scope.users = response.data;
+        }, function (error) {
+            console.log('Error fetching users:', error);
+        });
+
+        $scope.formatDate = function (dateString) {
+            var birthDate = new Date(dateString);
+            var formattedDate = ("0" + birthDate.getDate()).slice(-2) + "/"
+                + ("0" + (birthDate.getMonth() + 1)).slice(-2) + "/"
+                + birthDate.getFullYear();
+            return formattedDate;
+        };
     })
     .filter('passwordValidator', function () {
         return function (input) {

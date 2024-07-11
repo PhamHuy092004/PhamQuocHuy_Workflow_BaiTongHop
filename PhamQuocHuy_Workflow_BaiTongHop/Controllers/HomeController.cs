@@ -46,6 +46,7 @@ namespace PhamQuocHuy_Workflow_BaiTongHop.Controllers
             }
         }
 
+        [HttpGet]
         public JsonResult GetUsers()
         {
             List<Users> userList = StaticClass.GetUsers();
